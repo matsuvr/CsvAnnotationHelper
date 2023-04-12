@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>CSVアプリ</title>
+</head>
+<body>
+    <div class="container">
+        <h1>CSVの行を処理</h1>
+        <table>
+            <tr>
+                {% for key, value in row.items() %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for key, value in row.items() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+        <form action="{{ url_for('submit') }}" method="post">
+            <input type="hidden" name="row_index" value="{{ row_index }}">
+            <button type="submit" name="choice" value="Yes">Yes</button>
+            <button type="submit" name="choice" value="No">No</button>
+        </form>
+    </div>
+</body>
+</html>

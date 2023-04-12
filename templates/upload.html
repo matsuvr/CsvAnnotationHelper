@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>CSVアプリ</title>
+    <script>
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            let file = evt.dataTransfer.files[0];
+            if (file && file.type === 'text/csv') {
+                let formData = new FormData();
+                formData.append('file', file);
+                fetch("{{ url_for('index') }}", {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('無効なファイル形式です。CSVファイルをアップロードしてください。');
+                    }
+                }).then(html => {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                }).catch(error => {
+                    alert(error.message);
+                });
+            } else {
+                alert("無効なファイル形式です。CSVファイルをアップロードしてください。");
+            }
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let dropZone = document.getElementById('drop-zone');
+            dropZone.addEventListener('dragover', handleDragOver, false);
+            dropZone.addEventListener('drop', handleFileSelect, false);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>CSVファイルをドラッグ＆ドロップ</h1>
+        <div id="drop-zone" style="border: 2px dashed #000; padding: 20px; text-align: center;">
+            CSVファイルをここにドラッグ＆ドロップしてください
+        </div>
+    </div>
+</body>
+</html>
