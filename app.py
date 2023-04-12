@@ -47,5 +47,9 @@ def submit():
     else:
         return "CSVファイルの処理が完了しました。"
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    return "サーバーエラーが発生しました。もう一度お試しください。", 500
+
 if __name__ == '__main__':
     app.run(debug=True)
