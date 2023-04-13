@@ -16,3 +16,8 @@ python -m venv venv
 pip install flask
 python .\app.py
 ```
+
+起動後、PowerShellに表示されている http://127.0.0.1:5000 にブラウザでアクセスします。
+
+あとは、CSVファイルをドラッグアンドドロップすれば、1行ずつ読み込まれます。
+各行に対してYesまたはNoのボタンを押すと、CSVの各行の末尾にYesまたはNoの文字列が追加されます。
